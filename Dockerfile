@@ -31,17 +31,19 @@ RUN mkdir -p /tmp/prometheus && \
     curl -LO https://github.com/prometheus/prometheus/releases/download/v2.0.0/${PROMETHEUS_TAR} && \
     tar xvf ${PROMETHEUS_TAR} && \
     cp ${PROMETHEUS_TAR_FOLDER}/prometheus /usr/local/bin/ && \
-    cp ${PROMETHEUS_TAR_FOLDER}/promtool /usr/local/bin/ && \
     cp ${PROMETHEUS_TAR_FOLDER}/prometheus.yml /etc/prometheus/ && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/consoles /etc/prometheus && \
-    cp -r ${PROMETHEUS_TAR_FOLDER}/console_libraries /etc/prometheus
-#    rm -f /tmp/prometheus/
+    cp -r ${PROMETHEUS_TAR_FOLDER}/console_libraries /etc/prometheus && \
+    rm -f /tmp/prometheus/
     
 # Again Set User Rights
 RUN chown prometheus:prometheus /usr/local/bin/prometheus
 RUN chown prometheus:prometheus /usr/local/bin/promtool
 RUN chown -R prometheus:prometheus /etc/prometheus/consoles
 RUN chown -R prometheus:prometheus /etc/prometheus/console_libraries
+
+# Copy prometheus.yml into container
+COPY prometheus.yml /etc/prometheus/
 
 # run shell to keep container alive for testing
 CMD /bin/bash
