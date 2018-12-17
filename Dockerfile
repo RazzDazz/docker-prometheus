@@ -7,6 +7,7 @@ MAINTAINER RazzDazz
 RUN apt-get -yqq update && \
     apt-get -yqq upgrade && \
     apt-get -yqq install curl && \
+    apt-get -yqq install nano && \
     rm -rf /var/lib/apt/lists/*
 
 # Create User
@@ -31,6 +32,7 @@ RUN mkdir -p /tmp/prometheus && \
     tar xvf ${PROMETHEUS_TAR} && \
     cp ${PROMETHEUS_TAR_FOLDER}/prometheus /usr/local/bin/ && \
     cp ${PROMETHEUS_TAR_FOLDER}/promtool /usr/local/bin/ && \
+    cp ${PROMETHEUS_TAR_FOLDER}/prometheus.yml /etc/prometheus/ && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/consoles /etc/prometheus && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/console_libraries /etc/prometheus
 #    rm -f /tmp/prometheus/
