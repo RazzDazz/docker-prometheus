@@ -23,12 +23,23 @@ RUN chown prometheus:prometheus /var/lib/prometheus
 
 # Download and extract prometheus sourcen
 ENV PROMETHEUS_TAR prometheus-2.0.0.linux-amd64.tar.gz
+ENV PROMETHEUS_TAR_FOLDER prometheus-2.0.0.linux-amd64
 
 RUN mkdir -p /tmp/prometheus && \
     cd /tmp/prometheus/ && \
     curl -LO https://github.com/prometheus/prometheus/releases/download/v2.0.0/${PROMETHEUS_TAR} && \
     tar xvf ${PROMETHEUS_TAR} && \
-    rm -f ${PROMETHEUS_TAR}   
+    cp ${PROMETHEUS_TAR_FOLDER}/prometheus /usr/local/bin/ && \
+    cp ${PROMETHEUS_TAR_FOLDER}/promtool /usr/local/bin/ && \
+    cp -r ${PROMETHEUS_TAR_FOLDER}/consoles /etc/prometheus && \
+    cp -r ${PROMETHEUS_TAR_FOLDER}/console_libraries /etc/prometheus
+#    rm -f /tmp/prometheus/
+    
+# Again Set User Rights
+RUN chown prometheus:prometheus /usr/local/bin/prometheus
+RUN chown prometheus:prometheus /usr/local/bin/promtool
+RUN chown -R prometheus:prometheus /etc/prometheus/consoles
+RUN chown -R prometheus:prometheus /etc/prometheus/console_libraries
 
 # run shell to keep container alive for testing
 CMD /bin/bash
