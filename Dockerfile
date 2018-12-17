@@ -31,7 +31,7 @@ RUN mkdir -p /tmp/prometheus && \
     curl -LO https://github.com/prometheus/prometheus/releases/download/v2.0.0/${PROMETHEUS_TAR} && \
     tar xvf ${PROMETHEUS_TAR} && \
     cp ${PROMETHEUS_TAR_FOLDER}/prometheus /usr/local/bin/ && \
-    cp ${PROMETHEUS_TAR_FOLDER}/prometheus.yml /etc/prometheus/ && \
+    cp ${PROMETHEUS_TAR_FOLDER}/promtool /usr/local/bin/ && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/consoles /etc/prometheus && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/console_libraries /etc/prometheus && \
     rm -rf /tmp/prometheus
