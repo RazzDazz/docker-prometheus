@@ -3,6 +3,12 @@ MAINTAINER RazzDazz
 # Using instructions from
 # https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ubuntu-16-04
 
+# Update packages, install apache, free diskspace
+RUN apt-get -yqq update && \
+    apt-get -yqq upgrade && \
+    apt-get -yqq install curl && \
+    rm -rf /var/lib/apt/lists/*
+
 # Create User
 RUN useradd --no-create-home --shell /bin/false prometheus
 RUN useradd --no-create-home --shell /bin/false node_exporter
