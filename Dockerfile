@@ -29,3 +29,6 @@ RUN mkdir -p /tmp/prometheus && \
     curl -LO https://github.com/prometheus/prometheus/releases/download/v2.0.0/${PROMETHEUS_TAR} && \
     tar xvf ${PROMETHEUS_TAR} && \
     rm -f ${PROMETHEUS_TAR}   
+
+# run shell to keep container alive for testing
+CMD /bin/bash
