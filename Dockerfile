@@ -34,7 +34,7 @@ RUN mkdir -p /tmp/prometheus && \
     cp ${PROMETHEUS_TAR_FOLDER}/prometheus.yml /etc/prometheus/ && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/consoles /etc/prometheus && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/console_libraries /etc/prometheus && \
-    rm -rf /tmp/prometheus/
+    rm -rf /tmp/prometheus
     
 # Again Set User Rights
 RUN chown prometheus:prometheus /usr/local/bin/prometheus
