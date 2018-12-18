@@ -7,14 +7,14 @@ https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ub
 - 9090
 
 ## Volumes
-- data directory: `/var/lib/prometheus`
 - log directory: `/var/logs/supervisor`
-- config file: `/etc/prometheus/prometheus.yml`
+- data directory: `/var/lib/prometheus`
+- config directory: `/tmp/prometheus`
 
 ## Sample directory structure on host
 ```
 -- prometheus
     |-- logs (optional)
     |-- data
-    |-- prometheus.yml
+    |-- config
 ```
