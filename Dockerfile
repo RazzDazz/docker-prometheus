@@ -53,10 +53,10 @@ RUN chown prometheus:prometheus /etc/prometheus/prometheus.yml
 USER prometheus
 
 ENTRYPOINT [ "/usr/local/bin/prometheus" ]
-CMD        [ "-config.file=/etc/prometheus/prometheus.yml", \
-             "-storage.tsdb.path=/var/lib/prometheus/", \
-             "-web.console.libraries=/etc/prometheus/console_libraries", \
-             "-web.console.templates=/etc/prometheus/consoles" ]
+CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
+             "--storage.tsdb.path=/var/lib/prometheus/", \
+             "--web.console.libraries=/etc/prometheus/console_libraries", \
+             "--web.console.templates=/etc/prometheus/consoles" ]
 
 # run shell to keep container alive for testing
 # CMD /bin/bash
