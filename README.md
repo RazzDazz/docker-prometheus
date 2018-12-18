@@ -1,5 +1,3 @@
-# docker-prometheus
-
 # Container for prometheus to run on a synology nas
 
 ## Using instructions from
