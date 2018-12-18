@@ -48,10 +48,10 @@ RUN chown -R prometheus:prometheus /etc/prometheus/consoles
 RUN chown -R prometheus:prometheus /etc/prometheus/console_libraries
 
 # Copy prometheus.yml into container
-COPY prometheus.yml /etc/prometheus/
+COPY prometheus.yml /etc/prometheus/prometheus.yml.sample
 
 # Again Set User Rights
-RUN chown prometheus:prometheus /etc/prometheus/prometheus.yml
+RUN chown prometheus:prometheus /etc/prometheus/prometheus.yml.sample
 
 # Copy helper scripts into container
 COPY docker-entrypoint.sh /tmp/
