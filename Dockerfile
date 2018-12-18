@@ -48,10 +48,10 @@ RUN chown -R prometheus:prometheus /etc/prometheus/consoles
 RUN chown -R prometheus:prometheus /etc/prometheus/console_libraries
 
 # Copy prometheus.yml into container
-COPY prometheus.yml /etc/prometheus/prometheus.yml.sample
+COPY prometheus.yml /tmp/prometheus.yml.sample
 
 # Again Set User Rights
-RUN chown prometheus:prometheus /etc/prometheus/prometheus.yml.sample
+RUN chown prometheus:prometheus /tmp/prometheus.yml.sample
 
 # Copy helper scripts into container
 COPY docker-entrypoint.sh /tmp/
@@ -62,15 +62,15 @@ COPY supervisor_prometheus.conf /tmp/
 # CMD  /bin/bash
 
 # Start prometheus directly
-# ENTRYPOINT [ "/usr/local/bin/prometheus" ]
-#CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
-#             "--storage.tsdb.path=/var/lib/prometheus/", \
-#             "--web.console.libraries=/etc/prometheus/console_libraries", \
-#             "--web.console.templates=/etc/prometheus/consoles" ]
+ENTRYPOINT [ "/usr/local/bin/prometheus" ]
+CMD        [ "--config.file=/tmp/prometheus.yml.sample", \
+             "--storage.tsdb.path=/var/lib/prometheus/", \
+             "--web.console.libraries=/etc/prometheus/console_libraries", \
+             "--web.console.templates=/etc/prometheus/consoles" ]
              
 # Start prometheus using supervisor (useful later to start other apps like node exporter)
-VOLUME /var/logs/supervisor
-VOLUME /var/lib/prometheus
-VOLUME /etc/prometheus/prometheus.yml
+# VOLUME /var/logs/supervisor
+# VOLUME /var/lib/prometheus
+# VOLUME /etc/prometheus/prometheus.yml
 
-CMD ["/tmp/docker-entrypoint.sh"]
+# CMD ["/tmp/docker-entrypoint.sh"]
