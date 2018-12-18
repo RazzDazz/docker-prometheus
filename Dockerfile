@@ -50,12 +50,12 @@ COPY prometheus.yml /etc/prometheus/
 # Again Set User Rights
 RUN chown prometheus:prometheus /etc/prometheus/prometheus.yml
 
-# Copy helper scripts into container
+# Copy helper scripts into container and change user rights
 COPY docker-entrypoint.sh /tmp/
 RUN chmod 777 /tmp/docker-entrypoint.sh
+RUN chown -R prometheus:prometheus /tmp/docker-entrypoint.sh
 COPY supervisor_prometheus.conf /tmp/
-
-USER prometheus
+RUN chown -R prometheus:prometheus /tmp/supervisor_prometheus.conf
 
 # run shell to keep container alive for testing
 # CMD  /bin/bash
