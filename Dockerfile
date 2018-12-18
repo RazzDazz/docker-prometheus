@@ -17,7 +17,6 @@ RUN apt-get -yqq update && \
 
 # Create User
 RUN useradd --no-create-home --shell /bin/false prometheus
-RUN useradd --no-create-home --shell /bin/false node_exporter
 
 # Create Folders
 RUN mkdir /etc/prometheus
