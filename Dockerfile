@@ -70,4 +70,7 @@ COPY supervisor_prometheus.conf /tmp/
              
 # Start prometheus using supervisor (useful later to start other apps like node exporter)
 VOLUME /var/logs/supervisor
+VOLUME /var/lib/prometheus
+VOLUME /etc/prometheus/prometheus.yml
+
 CMD ["/tmp/docker-entrypoint.sh"]
