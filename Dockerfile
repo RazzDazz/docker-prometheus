@@ -3,6 +3,7 @@ MAINTAINER RazzDazz
 # Using instructions from
 # https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ubuntu-16-04
 
+ENV PROMETHEUS_VER 2.0.0
 ENV PROMETHEUS_TAR prometheus-2.6.0.linux-amd64.tar.gz
 ENV PROMETHEUS_TAR_FOLDER prometheus-2.6.0.linux-amd64
 
@@ -12,7 +13,7 @@ EXPOSE 9090
 RUN apt-get -yqq update && \
     apt-get -yqq upgrade && \
     apt-get -yqq install curl && \
-    apt-get -yqq install nano && \
+    apt-get -yqq install supervisor && \
     rm -rf /var/lib/apt/lists/*
 
 # Create User
@@ -29,7 +30,7 @@ RUN chown prometheus:prometheus /var/lib/prometheus
 # Download and extract prometheus sourcen
 RUN mkdir -p /tmp/prometheus && \
     cd /tmp/prometheus/ && \
-    curl -LO https://github.com/prometheus/prometheus/releases/download/v2.0.0/${PROMETHEUS_TAR} && \
+    curl -LO https://github.com/prometheus/prometheus/releases/download/${PROMETHEUS_VER}/${PROMETHEUS_TAR} && \
     tar xvf ${PROMETHEUS_TAR} && \
     cp ${PROMETHEUS_TAR_FOLDER}/prometheus /usr/local/bin/ && \
     cp ${PROMETHEUS_TAR_FOLDER}/promtool /usr/local/bin/ && \
@@ -49,13 +50,22 @@ COPY prometheus.yml /etc/prometheus/
 # Again Set User Rights
 RUN chown prometheus:prometheus /etc/prometheus/prometheus.yml
 
+# Copy helper scripts into container
+COPY docker-entrypoint.sh /tmp/
+RUN chmod 777 /tmp/docker-entrypoint.sh
+COPY supervisor_prometheus.conf /tmp/
+
 USER prometheus
 
-ENTRYPOINT [ "/usr/local/bin/prometheus" ]
-CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
-             "--storage.tsdb.path=/var/lib/prometheus/", \
-             "--web.console.libraries=/etc/prometheus/console_libraries", \
-             "--web.console.templates=/etc/prometheus/consoles" ]
-
 # run shell to keep container alive for testing
-# CMD /bin/bash
+# CMD  /bin/bash
+
+# Start prometheus directly
+# ENTRYPOINT [ "/usr/local/bin/prometheus" ]
+#CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
+#             "--storage.tsdb.path=/var/lib/prometheus/", \
+#             "--web.console.libraries=/etc/prometheus/console_libraries", \
+#             "--web.console.templates=/etc/prometheus/consoles" ]
+             
+# Start prometheus using supervisor (useful later to start other apps like node exporter)
+CMD ["/tmp/docker-entrypoint.sh"]
