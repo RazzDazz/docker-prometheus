@@ -62,15 +62,15 @@ COPY supervisor_prometheus.conf /tmp/
 # CMD  /bin/bash
 
 # Start prometheus directly
-ENTRYPOINT [ "/usr/local/bin/prometheus" ]
-CMD        [ "--config.file=/tmp/prometheus.yml.sample", \
-             "--storage.tsdb.path=/var/lib/prometheus/", \
-             "--web.console.libraries=/etc/prometheus/console_libraries", \
-             "--web.console.templates=/etc/prometheus/consoles" ]
+# ENTRYPOINT [ "/usr/local/bin/prometheus" ]
+# CMD        [ "--config.file=/tmp/prometheus.yml.sample", \
+#              "--storage.tsdb.path=/var/lib/prometheus/", \
+#              "--web.console.libraries=/etc/prometheus/console_libraries", \
+#              "--web.console.templates=/etc/prometheus/consoles" ]
              
 # Start prometheus using supervisor (useful later to start other apps like node exporter)
-# VOLUME /var/logs/supervisor
-# VOLUME /var/lib/prometheus
-# VOLUME /etc/prometheus/prometheus.yml
+VOLUME /var/logs/supervisor
+VOLUME /var/lib/prometheus
+VOLUME /tmp/prometheus
 
-# CMD ["/tmp/docker-entrypoint.sh"]
+CMD ["/tmp/docker-entrypoint.sh"]
