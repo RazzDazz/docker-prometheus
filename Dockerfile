@@ -3,8 +3,8 @@ MAINTAINER RazzDazz
 # Using instructions from
 # https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ubuntu-16-04
 
-ENV PROMETHEUS_TAR prometheus-2.0.0.linux-amd64.tar.gz
-ENV PROMETHEUS_TAR_FOLDER prometheus-2.0.0.linux-amd64
+ENV PROMETHEUS_TAR prometheus-2.6.0.linux-amd64.tar.gz
+ENV PROMETHEUS_TAR_FOLDER prometheus-2.6.0.linux-amd64
 
 EXPOSE 9090
  
