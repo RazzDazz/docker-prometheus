@@ -7,6 +7,9 @@ ENV PROMETHEUS_VER v2.6.0
 ENV PROMETHEUS_TAR prometheus-2.6.0.linux-amd64.tar.gz
 ENV PROMETHEUS_TAR_FOLDER prometheus-2.6.0.linux-amd64
 
+ENV REFRESHED_AT 2018-12-18
+ENV DEBIAN_FRONTEND noninteractive
+
 EXPOSE 9090
  
 # Update packages, install apache, free diskspace
@@ -50,12 +53,10 @@ COPY prometheus.yml /etc/prometheus/
 # Again Set User Rights
 RUN chown prometheus:prometheus /etc/prometheus/prometheus.yml
 
-# Copy helper scripts into container and change user rights
+# Copy helper scripts into container
 COPY docker-entrypoint.sh /tmp/
 RUN chmod 777 /tmp/docker-entrypoint.sh
-RUN chown -R prometheus:prometheus /tmp/docker-entrypoint.sh
 COPY supervisor_prometheus.conf /tmp/
-RUN chown -R prometheus:prometheus /tmp/supervisor_prometheus.conf
 
 # run shell to keep container alive for testing
 # CMD  /bin/bash
@@ -68,4 +69,5 @@ RUN chown -R prometheus:prometheus /tmp/supervisor_prometheus.conf
 #             "--web.console.templates=/etc/prometheus/consoles" ]
              
 # Start prometheus using supervisor (useful later to start other apps like node exporter)
+VOLUME /var/logs/supervisor
 CMD ["/tmp/docker-entrypoint.sh"]
