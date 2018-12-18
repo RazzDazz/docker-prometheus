@@ -28,7 +28,7 @@ RUN mkdir /var/lib/prometheus
 
 # Set User Rights
 RUN chown prometheus:prometheus /etc/prometheus
-RUN chown prometheus:prometheus /var/lib/prometheus
+# RUN chown prometheus:prometheus /var/lib/prometheus
 
 # Download and extract prometheus sourcen
 RUN mkdir -p /tmp/prometheus && \
