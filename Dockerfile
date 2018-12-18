@@ -69,7 +69,7 @@ COPY supervisor_prometheus.conf /tmp/
 #              "--web.console.templates=/etc/prometheus/consoles" ]
              
 # Start prometheus using supervisor (useful later to start other apps like node exporter)
-VOLUME /var/logs/supervisor
+VOLUME /var/log/supervisor
 VOLUME /var/lib/prometheus
 VOLUME /tmp/prometheus
 
