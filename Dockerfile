@@ -18,7 +18,7 @@ RUN apt-get -yqq update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create User
-RUN useradd --no-create-home --shell /bin/false prometheus
+# RUN useradd --no-create-home --shell /bin/false prometheus
 
 # Create Folders
 RUN mkdir /etc/prometheus
