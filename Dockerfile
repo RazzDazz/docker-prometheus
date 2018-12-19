@@ -10,8 +10,6 @@ ENV PROMETHEUS_TAR_FOLDER prometheus-2.6.0.linux-amd64
 ENV REFRESHED_AT 2018-12-18
 ENV DEBIAN_FRONTEND noninteractive
 
-EXPOSE 9090
- 
 # Update packages, install apache, free diskspace
 RUN apt-get -yqq update && \
     apt-get -yqq upgrade && \
@@ -27,7 +25,7 @@ RUN mkdir /etc/prometheus
 RUN mkdir /var/lib/prometheus
 
 # Set User Rights
-RUN chown prometheus:prometheus /etc/prometheus
+# RUN chown prometheus:prometheus /etc/prometheus
 # RUN chown prometheus:prometheus /var/lib/prometheus
 
 # Download and extract prometheus sourcen
@@ -42,21 +40,29 @@ RUN mkdir -p /tmp/prometheus && \
     rm -rf /tmp/prometheus
     
 # Again Set User Rights
-RUN chown prometheus:prometheus /usr/local/bin/prometheus
-RUN chown prometheus:prometheus /usr/local/bin/promtool
-RUN chown -R prometheus:prometheus /etc/prometheus/consoles
-RUN chown -R prometheus:prometheus /etc/prometheus/console_libraries
+# RUN chown prometheus:prometheus /usr/local/bin/prometheus
+# RUN chown prometheus:prometheus /usr/local/bin/promtool
+# RUN chown -R prometheus:prometheus /etc/prometheus/consoles
+# RUN chown -R prometheus:prometheus /etc/prometheus/console_libraries
 
 # Copy prometheus.yml into container
 COPY prometheus.yml /tmp/prometheus.yml.sample
 
 # Again Set User Rights
-RUN chown prometheus:prometheus /tmp/prometheus.yml.sample
+# RUN chown prometheus:prometheus /tmp/prometheus.yml.sample
 
 # Copy helper scripts into container
 COPY docker-entrypoint.sh /tmp/
 RUN chmod 777 /tmp/docker-entrypoint.sh
 COPY supervisor_prometheus.conf /tmp/
+
+
+#
+EXPOSE 9090
+
+VOLUME /var/log/supervisor
+VOLUME /var/lib/prometheus
+VOLUME /tmp/prometheus
 
 # run shell to keep container alive for testing
 # CMD  /bin/bash
@@ -69,8 +75,4 @@ COPY supervisor_prometheus.conf /tmp/
 #              "--web.console.templates=/etc/prometheus/consoles" ]
              
 # Start prometheus using supervisor (useful later to start other apps like node exporter)
-VOLUME /var/log/supervisor
-VOLUME /var/lib/prometheus
-VOLUME /tmp/prometheus
-
 CMD ["/tmp/docker-entrypoint.sh"]
