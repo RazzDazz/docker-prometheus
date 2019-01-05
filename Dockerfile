@@ -7,7 +7,7 @@ ENV PROMETHEUS_VER v2.6.0
 ENV PROMETHEUS_TAR prometheus-2.6.0.linux-amd64.tar.gz
 ENV PROMETHEUS_TAR_FOLDER prometheus-2.6.0.linux-amd64
 
-ENV REFRESHED_AT 2018-12-18
+ENV REFRESHED_AT 2019-01-05
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update packages, install apache, free diskspace
@@ -17,17 +17,10 @@ RUN apt-get -yqq update && \
     apt-get -yqq install supervisor && \
     rm -rf /var/lib/apt/lists/*
 
-# Create User
-# RUN useradd --no-create-home --shell /bin/false prometheus
-
 # Create Folders
 RUN mkdir /etc/prometheus
 RUN mkdir /var/lib/prometheus
 RUN mkdir /opt/prometheus
-
-# Set User Rights
-# RUN chown prometheus:prometheus /etc/prometheus
-# RUN chown prometheus:prometheus /var/lib/prometheus
 
 # Download and extract prometheus sourcen
 RUN mkdir -p /tmp/prometheus && \
@@ -40,17 +33,8 @@ RUN mkdir -p /tmp/prometheus && \
     cp -r ${PROMETHEUS_TAR_FOLDER}/console_libraries /etc/prometheus && \
     rm -rf /tmp/prometheus
     
-# Again Set User Rights
-# RUN chown prometheus:prometheus /usr/local/bin/prometheus
-# RUN chown prometheus:prometheus /usr/local/bin/promtool
-# RUN chown -R prometheus:prometheus /etc/prometheus/consoles
-# RUN chown -R prometheus:prometheus /etc/prometheus/console_libraries
-
 # Copy prometheus.yml into container
 COPY prometheus.yml /tmp/prometheus.yml.sample
-
-# Again Set User Rights
-# RUN chown prometheus:prometheus /tmp/prometheus.yml.sample
 
 # Copy helper scripts into container
 COPY docker-entrypoint.sh /tmp/
@@ -63,16 +47,6 @@ EXPOSE 9090
 VOLUME /var/log/supervisor
 VOLUME /var/lib/prometheus
 VOLUME /opt/prometheus
-
-# run shell to keep container alive for testing
-# CMD  /bin/bash
-
-# Start prometheus directly
-# ENTRYPOINT [ "/usr/local/bin/prometheus" ]
-# CMD        [ "--config.file=/opt/prometheus/prometheus.yml", \
-#              "--storage.tsdb.path=/var/lib/prometheus/", \
-#              "--web.console.libraries=/etc/prometheus/console_libraries", \
-#              "--web.console.templates=/etc/prometheus/consoles" ]
-             
+           
 # Start prometheus using supervisor (useful later to start other apps like node exporter)
 CMD ["/tmp/docker-entrypoint.sh"]
