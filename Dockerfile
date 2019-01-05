@@ -23,6 +23,7 @@ RUN apt-get -yqq update && \
 # Create Folders
 RUN mkdir /etc/prometheus
 RUN mkdir /var/lib/prometheus
+RUN mkdir /opt/prometheus
 
 # Set User Rights
 # RUN chown prometheus:prometheus /etc/prometheus
@@ -56,20 +57,19 @@ COPY docker-entrypoint.sh /tmp/
 RUN chmod 777 /tmp/docker-entrypoint.sh
 COPY supervisor_prometheus.conf /tmp/
 
-
 #
 EXPOSE 9090
 
 VOLUME /var/log/supervisor
 VOLUME /var/lib/prometheus
-VOLUME /tmp/prometheus
+VOLUME /opt/prometheus
 
 # run shell to keep container alive for testing
 # CMD  /bin/bash
 
 # Start prometheus directly
 # ENTRYPOINT [ "/usr/local/bin/prometheus" ]
-# CMD        [ "--config.file=/tmp/prometheus.yml.sample", \
+# CMD        [ "--config.file=/opt/prometheus/prometheus.yml", \
 #              "--storage.tsdb.path=/var/lib/prometheus/", \
 #              "--web.console.libraries=/etc/prometheus/console_libraries", \
 #              "--web.console.templates=/etc/prometheus/consoles" ]
