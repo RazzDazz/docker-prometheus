@@ -9,7 +9,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-prometheus-on-ub
 ## Volumes
 - log directory: `/var/log/supervisor`
 - data directory: `/var/lib/prometheus`
-- config directory: `/tmp/prometheus`
+- config directory: `/opt/prometheus`
 
 ## Sample directory structure on host
 ```
